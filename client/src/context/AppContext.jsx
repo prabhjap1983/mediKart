@@ -516,15 +516,21 @@ const fetchUser = async () => {
     }
 };
 
-const addToCart = (itemId, quantity = 1) => {
-  let cartData = structuredClone(cartItems);
-  if (cartData[itemId]) {
-    cartData[itemId] += quantity;
-  } else {
-    cartData[itemId] = quantity;
+const addToCart = async (itemId, quantity = 1) => {
+  try {
+    const { data } = await axios.post(
+      "/api/cart/update",   // ✅ correct endpoint
+      { cartItems: { [itemId]: quantity } }, // backend expects cartItems
+      { withCredentials: true }
+    );
+
+    // Update local state with response from backend
+    setCartItems(data.cart);
+    toast.success("Product Added To Cart...");
+  } catch (error) {
+    console.error("Error adding to cart:", error);
+    toast.error(error.response?.data?.message || "Failed to add product");
   }
-  setCartItems(cartData);
-  toast.success("Product Added To Cart...");
 };
 
 // update cart item quantity

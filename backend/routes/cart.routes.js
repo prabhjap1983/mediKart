@@ -1,11 +1,13 @@
-import express from 'express'
-import { authUser } from '../middlewares/authUser.js';
-import { updateCart } from '../controllers/cart.controller.js';
+import express from "express";
+import { authUser } from "../middlewares/authUser.js";
+import { updateCart, getCart } from "../controllers/cart.controller.js";
 
+const router = express.Router();
 
+// ✅ Get cart
+router.get("/", authUser, getCart);
 
-const router=express.Router();
-
+// ✅ Update cart
 router.post("/update", authUser, updateCart);
 
 export default router;

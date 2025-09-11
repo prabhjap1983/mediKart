@@ -325,7 +325,7 @@ const ProductDetails = () => {
 
   // const product = products.find((p) => String(p.id) === String(id));
 
-  const { category, id } = useParams();
+  const { id } = useParams();
 const product = products.find((p) => String(p._id) === String(id));
 
   const [thumbnail, setThumbnail] = useState(null);
@@ -494,7 +494,7 @@ const product = products.find((p) => String(p._id) === String(id));
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => addToCart(product.id)}
+              onClick={() => addToCart(product._id)}
               className="flex-1 py-3 font-medium rounded-lg bg-gray-100 text-gray-800 hover:bg-gray-200 transition shadow-sm"
             >
               Add to Cart
