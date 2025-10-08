@@ -23,7 +23,7 @@ export const placeOrderCOD = async (req, res) => {
             items,
             address,
             amount,
-            paymentMethod: "COD",
+            paymentType: "COD",
             isPaid: false,
         });
         res.status(201).json({
@@ -39,30 +39,47 @@ export const placeOrderCOD = async (req, res) => {
 
 
 
-export const getUserOrders = async (req, res) => {
-    try {
-        const userId = req.user;
-        const orders = await Order.find({
-            userId,
-        })
-        .sort({ paymentMethod: "COD" }, { isPaid: true })
-        .populate("items.product address")
-        .sort({ createdAt: -1 });
-        res.status(200).json({
-            success: true,
-            orders,
-        });
-    } catch (error) {
-        console.error("Error fetching user orders:", error);
-        res.status(500).json({ message: "Internal server error" });
-    }
-};
+// export const getUserOrders = async (req, res) => {
+//     try {
+//         const userId = req.user;
+//         const orders = await Order.find({
+//             userId,
+//         })
+//         .sort({ paymentType: "COD" }, { isPaid: true })
+//         .populate("items.product address")
+//         .sort({ createdAt: -1 });
+//         res.status(200).json({
+//             success: true,
+//             orders,
+//         });
+//     } catch (error) {
+//         console.error("Error fetching user orders:", error);
+//         res.status(500).json({ message: "Internal server error" });
+//     }
+// };
 
+export const getUserOrders = async (req, res) => {
+  try {
+    const userId = req.user?._id;
+    if (!userId) {
+      return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
+
+    const orders = await Order.find({ user: userId }).populate("items.product");
+    return res.status(200).json({ success: true, orders });
+  } catch (error) {
+    console.error("Error fetching user orders:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server Error: " + error.message,
+    });
+  }
+};
 
 export const getAllOrders = async (req, res) => {
     try {
         const orders = await Order.find({
-            $or: [{ paymentMethod: "COD" }, { isPaid: true }],
+            $or: [{ paymentType: "COD" }, { isPaid: true }],
         })
         .populate("items.product address")
         .sort({ createdAt: -1 });

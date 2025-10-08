@@ -1432,20 +1432,271 @@
 
 // export default AddProduct;
 
+// import { useState, useContext, useRef } from "react";
+// import { AppContext } from "../../context/AppContext";
+// import { toast } from "react-toastify";
+
+// const AddProduct = ({ asset }) => {
+//   const { axios } = useContext(AppContext);
+//   const { categories = [] } = useContext(AppContext);
+
+//   const [files, setFiles] = useState([]);
+//   const [name, setName] = useState("");
+//   const [price, setPrice] = useState("");
+//   const [description, setDescription] = useState("");
+//   const [category, setCategory] = useState("");
+//   const [offerPrice, setOfferPrice] = useState("");
+//   const [isSubmitting, setIsSubmitting] = useState(false);
+//   const [successMessage, setSuccessMessage] = useState("");
+
+//   const formRef = useRef(null);
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     if (isSubmitting) return;
+
+//     try {
+//       setIsSubmitting(true);
+
+//       // Validation
+//       if (!name || !price || !offerPrice || !description || !category) {
+//         toast.error("Please fill all required fields");
+//         return;
+//       }
+
+//       const validFiles = files.filter((file) => file !== undefined && file !== null);
+//       if (validFiles.length === 0) {
+//         toast.error("Please select at least one image");
+//         return;
+//       }
+
+//       const formData = new FormData();
+//       formData.append("name", name);
+//       formData.append("description", description);
+//       formData.append("price", price);
+//       formData.append("offerPrice", offerPrice);
+//       formData.append("category", category);
+//       validFiles.forEach((file) => formData.append("image", file));
+
+//       const response = await axios.post("/api/product/add-product", formData, {
+//         headers: { "Content-Type": "multipart/form-data" },
+//       });
+
+//       if (response && response.data) {
+//         if (response.data.success) {
+//           // ✅ Show success banner
+//           setSuccessMessage("Product added successfully!");
+//           formRef.current?.scrollIntoView({ behavior: "smooth" });
+
+//           // Reset form
+//           setName("");
+//           setDescription("");
+//           setPrice("");
+//           setOfferPrice("");
+//           setCategory("");
+//           setFiles([]);
+
+//           // Hide banner after 5s
+//           setTimeout(() => setSuccessMessage(""), 5000);
+//         } else {
+//           toast.error(response.data.message || "Failed to add product");
+//         }
+//       } else {
+//         toast.error("Invalid response from server");
+//       }
+//     } catch (error) {
+//       console.error("Error submitting form:", error);
+//       toast.error(error.response?.data?.message || "Something went wrong");
+//     } finally {
+//       setIsSubmitting(false);
+//     }
+//   };
+
+//   return (
+//     <div className="py-10 flex flex-col items-center bg-gradient-to-br from-indigo-50 to-white min-h-screen">
+//       <form
+//         ref={formRef}
+//         onSubmit={handleSubmit}
+//         className="md:p-10 p-6 space-y-6 w-full max-w-3xl bg-white shadow-lg rounded-2xl border border-gray-200"
+//       >
+//         {/* ✅ Success Banner */}
+//         {successMessage && (
+//           <div className="p-3 mb-4 rounded-lg bg-green-100 text-green-700 text-center font-medium">
+//             {successMessage}
+//           </div>
+//         )}
+
+//         {/* Title */}
+//         <h2 className="text-2xl font-semibold text-gray-800 text-center">
+//           Add New Product
+//         </h2>
+
+//         {/* Product Images */}
+//         <div>
+//           <p className="text-base font-medium text-gray-700">
+//             Product Images <span className="text-red-500">*</span>
+//           </p>
+//           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-3">
+//             {Array(4)
+//               .fill("")
+//               .map((_, index) => (
+//                 <label key={index} htmlFor={`image${index}`} className="cursor-pointer">
+//                   <input
+//                     onChange={(e) => {
+//                       const updatedFiles = [...files];
+//                       updatedFiles[index] = e.target.files[0];
+//                       setFiles(updatedFiles);
+//                     }}
+//                     accept="image/*"
+//                     type="file"
+//                     id={`image${index}`}
+//                     hidden
+//                   />
+//                   <div className="w-full h-32 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg overflow-hidden bg-gray-50 hover:border-indigo-400 transition">
+//                     {files[index] ? (
+//                       <img
+//                         src={URL.createObjectURL(files[index])}
+//                         alt={`upload-${index}`}
+//                         className="w-full h-full object-cover"
+//                       />
+//                     ) : (
+//                       <img
+//                         src={asset?.upload_area}
+//                         alt={`placeholder-${index}`}
+//                         className="w-10 h-10 opacity-70"
+//                       />
+//                     )}
+//                   </div>
+//                 </label>
+//               ))}
+//           </div>
+//         </div>
+
+//         {/* Product Name */}
+//         <div className="flex flex-col gap-2">
+//           <label className="text-base font-medium text-gray-700" htmlFor="product-name">
+//             Product Name <span className="text-red-500">*</span>
+//           </label>
+//           <input
+//             id="product-name"
+//             type="text"
+//             value={name}
+//             onChange={(e) => setName(e.target.value)}
+//             placeholder="Type here"
+//             className="outline-none py-2.5 px-3 rounded-lg border border-gray-300 w-full focus:ring-2 focus:ring-indigo-400"
+//             required
+//             disabled={isSubmitting}
+//           />
+//         </div>
+
+//         {/* Product Description */}
+//         <div className="flex flex-col gap-2">
+//           <label
+//             className="text-base font-medium text-gray-700"
+//             htmlFor="product-description"
+//           >
+//             Product Description <span className="text-red-500">*</span>
+//           </label>
+//           <textarea
+//             id="product-description"
+//             rows={5}
+//             value={description}
+//             onChange={(e) => setDescription(e.target.value)}
+//             placeholder="Type here"
+//             className="outline-none py-2.5 px-3 rounded-lg border border-gray-300 w-full resize-none focus:ring-2 focus:ring-indigo-400"
+//             required
+//             disabled={isSubmitting}
+//           ></textarea>
+//         </div>
+
+//         {/* Category */}
+//         <div className="flex flex-col gap-2">
+//           <label className="text-base font-medium text-gray-700" htmlFor="category">
+//             Category <span className="text-red-500">*</span>
+//           </label>
+//           <select
+//             id="category"
+//             value={category}
+//             onChange={(e) => setCategory(e.target.value)}
+//             className="outline-none py-2.5 px-3 rounded-lg border border-gray-300 w-full focus:ring-2 focus:ring-indigo-400"
+//             required
+//             disabled={isSubmitting}
+//           >
+//             <option value="">Select Category</option>
+//             {categories.map((cat, index) => (
+//               <option key={index} value={cat}>
+//                 {cat}
+//               </option>
+//             ))}
+//           </select>
+//         </div>
+
+//         {/* Price & Offer Price */}
+//         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+//           <div className="flex flex-col gap-2">
+//             <label className="text-base font-medium text-gray-700" htmlFor="product-price">
+//               Product Price <span className="text-red-500">*</span>
+//             </label>
+//             <input
+//               id="product-price"
+//               type="number"
+//               value={price}
+//               onChange={(e) => setPrice(e.target.value)}
+//               placeholder="0"
+//               className="outline-none py-2.5 px-3 rounded-lg border border-gray-300 w-full focus:ring-2 focus:ring-indigo-400"
+//               required
+//               min="0"
+//               step="0.01"
+//               disabled={isSubmitting}
+//             />
+//           </div>
+//           <div className="flex flex-col gap-2">
+//             <label className="text-base font-medium text-gray-700" htmlFor="offer-price">
+//               Offer Price <span className="text-red-500">*</span>
+//             </label>
+//             <input
+//               id="offer-price"
+//               type="number"
+//               value={offerPrice}
+//               onChange={(e) => setOfferPrice(e.target.value)}
+//               placeholder="0"
+//               className="outline-none py-2.5 px-3 rounded-lg border border-gray-300 w-full focus:ring-2 focus:ring-indigo-400"
+//               required
+//               min="0"
+//               step="0.01"
+//               disabled={isSubmitting}
+//             />
+//           </div>
+//         </div>
+
+//         {/* Submit Button */}
+//         <button
+//           type="submit"
+//           disabled={isSubmitting}
+//           className="w-full py-3 bg-indigo-600 text-white font-medium rounded-lg shadow-md hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+//         >
+//           {isSubmitting ? "ADDING PRODUCT..." : "ADD PRODUCT"}
+//         </button>
+//       </form>
+//     </div>
+//   );
+// };
+
+// export default AddProduct;
 import { useState, useContext, useRef } from "react";
 import { AppContext } from "../../context/AppContext";
 import { toast } from "react-toastify";
 
 const AddProduct = ({ asset }) => {
-  const { axios } = useContext(AppContext);
-  const { categories = [] } = useContext(AppContext);
+  const { axios, categories = [] } = useContext(AppContext); // single useContext call
 
   const [files, setFiles] = useState([]);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
+  const [offerPrice, setOfferPrice] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
-  const [offerPrice, setOfferPrice] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -1453,24 +1704,24 @@ const AddProduct = ({ asset }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (isSubmitting) return;
+
+    // Validation
+    if (!name || !price || !offerPrice || !description || !category) {
+      toast.error("Please fill all required fields");
+      return;
+    }
+
+    const validFiles = files.filter(Boolean);
+    if (validFiles.length === 0) {
+      toast.error("Please select at least one image");
+      return;
+    }
 
     try {
       setIsSubmitting(true);
 
-      // Validation
-      if (!name || !price || !offerPrice || !description || !category) {
-        toast.error("Please fill all required fields");
-        return;
-      }
-
-      const validFiles = files.filter((file) => file !== undefined && file !== null);
-      if (validFiles.length === 0) {
-        toast.error("Please select at least one image");
-        return;
-      }
-
+      // Prepare formData
       const formData = new FormData();
       formData.append("name", name);
       formData.append("description", description);
@@ -1479,34 +1730,29 @@ const AddProduct = ({ asset }) => {
       formData.append("category", category);
       validFiles.forEach((file) => formData.append("image", file));
 
+      // Post product (backend)
       const response = await axios.post("/api/product/add-product", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      if (response && response.data) {
-        if (response.data.success) {
-          // ✅ Show success banner
-          setSuccessMessage("Product added successfully!");
-          formRef.current?.scrollIntoView({ behavior: "smooth" });
+      if (response?.data?.success) {
+        setSuccessMessage("Product added successfully!");
+        formRef.current?.scrollIntoView({ behavior: "smooth" });
 
-          // Reset form
-          setName("");
-          setDescription("");
-          setPrice("");
-          setOfferPrice("");
-          setCategory("");
-          setFiles([]);
+        // Reset form
+        setName("");
+        setDescription("");
+        setPrice("");
+        setOfferPrice("");
+        setCategory("");
+        setFiles([]);
 
-          // Hide banner after 5s
-          setTimeout(() => setSuccessMessage(""), 5000);
-        } else {
-          toast.error(response.data.message || "Failed to add product");
-        }
+        setTimeout(() => setSuccessMessage(""), 5000);
       } else {
-        toast.error("Invalid response from server");
+        toast.error(response?.data?.message || "Failed to add product");
       }
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error(error);
       toast.error(error.response?.data?.message || "Something went wrong");
     } finally {
       setIsSubmitting(false);
@@ -1520,19 +1766,17 @@ const AddProduct = ({ asset }) => {
         onSubmit={handleSubmit}
         className="md:p-10 p-6 space-y-6 w-full max-w-3xl bg-white shadow-lg rounded-2xl border border-gray-200"
       >
-        {/* ✅ Success Banner */}
         {successMessage && (
           <div className="p-3 mb-4 rounded-lg bg-green-100 text-green-700 text-center font-medium">
             {successMessage}
           </div>
         )}
 
-        {/* Title */}
         <h2 className="text-2xl font-semibold text-gray-800 text-center">
           Add New Product
         </h2>
 
-        {/* Product Images */}
+        {/* Images */}
         <div>
           <p className="text-base font-medium text-gray-700">
             Product Images <span className="text-red-500">*</span>
@@ -1543,15 +1787,15 @@ const AddProduct = ({ asset }) => {
               .map((_, index) => (
                 <label key={index} htmlFor={`image${index}`} className="cursor-pointer">
                   <input
+                    type="file"
+                    id={`image${index}`}
+                    accept="image/*"
+                    hidden
                     onChange={(e) => {
                       const updatedFiles = [...files];
                       updatedFiles[index] = e.target.files[0];
                       setFiles(updatedFiles);
                     }}
-                    accept="image/*"
-                    type="file"
-                    id={`image${index}`}
-                    hidden
                   />
                   <div className="w-full h-32 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg overflow-hidden bg-gray-50 hover:border-indigo-400 transition">
                     {files[index] ? (
@@ -1573,108 +1817,66 @@ const AddProduct = ({ asset }) => {
           </div>
         </div>
 
-        {/* Product Name */}
-        <div className="flex flex-col gap-2">
-          <label className="text-base font-medium text-gray-700" htmlFor="product-name">
-            Product Name <span className="text-red-500">*</span>
-          </label>
+        {/* Name & Description */}
+        <input
+          type="text"
+          placeholder="Product Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-400"
+          required
+          disabled={isSubmitting}
+        />
+        <textarea
+          rows={5}
+          placeholder="Product Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-400 resize-none"
+          required
+          disabled={isSubmitting}
+        />
+
+        {/* Category */}
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-400"
+          required
+          disabled={isSubmitting || categories.length === 0}
+        >
+          <option value="">Select Category</option>
+          {categories.map((cat, idx) => (
+            <option key={idx} value={cat}>{cat}</option>
+          ))}
+        </select>
+
+        {/* Price & Offer Price */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <input
-            id="product-name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Type here"
-            className="outline-none py-2.5 px-3 rounded-lg border border-gray-300 w-full focus:ring-2 focus:ring-indigo-400"
+            type="number"
+            placeholder="Price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-400"
+            required
+            disabled={isSubmitting}
+          />
+          <input
+            type="number"
+            placeholder="Offer Price"
+            value={offerPrice}
+            onChange={(e) => setOfferPrice(e.target.value)}
+            className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-400"
             required
             disabled={isSubmitting}
           />
         </div>
 
-        {/* Product Description */}
-        <div className="flex flex-col gap-2">
-          <label
-            className="text-base font-medium text-gray-700"
-            htmlFor="product-description"
-          >
-            Product Description <span className="text-red-500">*</span>
-          </label>
-          <textarea
-            id="product-description"
-            rows={5}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Type here"
-            className="outline-none py-2.5 px-3 rounded-lg border border-gray-300 w-full resize-none focus:ring-2 focus:ring-indigo-400"
-            required
-            disabled={isSubmitting}
-          ></textarea>
-        </div>
-
-        {/* Category */}
-        <div className="flex flex-col gap-2">
-          <label className="text-base font-medium text-gray-700" htmlFor="category">
-            Category <span className="text-red-500">*</span>
-          </label>
-          <select
-            id="category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="outline-none py-2.5 px-3 rounded-lg border border-gray-300 w-full focus:ring-2 focus:ring-indigo-400"
-            required
-            disabled={isSubmitting}
-          >
-            <option value="">Select Category</option>
-            {categories.map((cat, index) => (
-              <option key={index} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Price & Offer Price */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div className="flex flex-col gap-2">
-            <label className="text-base font-medium text-gray-700" htmlFor="product-price">
-              Product Price <span className="text-red-500">*</span>
-            </label>
-            <input
-              id="product-price"
-              type="number"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              placeholder="0"
-              className="outline-none py-2.5 px-3 rounded-lg border border-gray-300 w-full focus:ring-2 focus:ring-indigo-400"
-              required
-              min="0"
-              step="0.01"
-              disabled={isSubmitting}
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-base font-medium text-gray-700" htmlFor="offer-price">
-              Offer Price <span className="text-red-500">*</span>
-            </label>
-            <input
-              id="offer-price"
-              type="number"
-              value={offerPrice}
-              onChange={(e) => setOfferPrice(e.target.value)}
-              placeholder="0"
-              className="outline-none py-2.5 px-3 rounded-lg border border-gray-300 w-full focus:ring-2 focus:ring-indigo-400"
-              required
-              min="0"
-              step="0.01"
-              disabled={isSubmitting}
-            />
-          </div>
-        </div>
-
-        {/* Submit Button */}
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full py-3 bg-indigo-600 text-white font-medium rounded-lg shadow-md hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition disabled:opacity-50"
         >
           {isSubmitting ? "ADDING PRODUCT..." : "ADD PRODUCT"}
         </button>

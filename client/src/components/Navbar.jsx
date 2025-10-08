@@ -94,7 +94,7 @@ const Navbar = () => {
         <Link to="/" className="hover:text-indigo-600 transition">Home</Link>
         <Link to="/about" className="hover:text-indigo-600 transition">About</Link>
         <Link to="/medicines-and-more" className="hover:text-indigo-600 transition">Medicines & More</Link>
-        <Link to="/contact" className="hover:text-indigo-600 transition">Contact</Link>
+        {/* <Link to="/contact" className="hover:text-indigo-600 transition">Contact</Link> */}
 
         {/* Search Bar */}
         <div className="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 py-1.5 rounded-full hover:shadow-sm transition">
@@ -226,7 +226,7 @@ const Navbar = () => {
       className="w-12 h-12 rounded-full object-cover"
     />
     <ul className="hidden group-hover:flex flex-col absolute top-12 right-0 w-52 bg-white border border-gray-200 rounded-xl shadow-xl z-50 transition-all duration-300 ease-in-out text-sm text-gray-700">
-      <li
+      {/* <li
         onClick={() => navigate("/my-orders")}
         className="px-4 py-3 hover:bg-sky-100 text-gray-800 cursor-pointer rounded-t-xl transition flex items-center gap-2"
       >
@@ -244,7 +244,7 @@ const Navbar = () => {
           />
         </svg>
         My Orders
-      </li>
+      </li> */}
 
       <hr className="border-gray-200 mx-4" />
 
@@ -306,7 +306,7 @@ const Navbar = () => {
       className="w-12 h-12 rounded-full object-cover"
     />
     <ul className="hidden group-hover:flex flex-col absolute top-12 right-0 w-52 bg-white border border-gray-200 rounded-xl shadow-xl z-50 transition-all duration-300 ease-in-out text-sm text-gray-700">
-      <li
+      {/* <li
         onClick={() => navigate("/my-orders")}
         className="px-4 py-3 hover:bg-sky-100 text-gray-800 cursor-pointer rounded-t-xl transition flex items-center gap-2"
       >
@@ -324,7 +324,7 @@ const Navbar = () => {
           />
         </svg>
         My Orders
-      </li>
+      </li> */}
 
       <hr className="border-gray-200 mx-4" />
 

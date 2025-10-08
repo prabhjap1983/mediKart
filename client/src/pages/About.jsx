@@ -61,19 +61,26 @@ const About = () => {
             </p>
 
             {/* Buttons */}
-            <div className="flex gap-4 mt-6">
+            {/* <div className="flex gap-4 mt-6">
               <a
                 href="/products"
                 className="px-6 py-3 bg-[#4d59e2] text-white rounded-xl shadow-md hover:bg-[#3c46b8] transform hover:-translate-y-1 transition-all"
               >
                 Explore Products
-              </a>
-              <a
+              </a> */}
+              <div className="flex gap-4 mt-6">
+  <a
+    href="/medicines-and-more"
+    className="px-6 py-3 bg-[#4d59e2] text-white rounded-xl shadow-md hover:bg-[#3c46b8] transform hover:-translate-y-1 transition-all"
+  >
+    Explore Products
+  </a>
+              {/* <a
                 href="/contact"
                 className="px-6 py-3 border border-[#4d59e2] text-[#4d59e2] rounded-xl shadow-md hover:bg-[#f0f1ff] transform hover:-translate-y-1 transition-all"
               >
                 Contact Us
-              </a>
+              </a> */}
             </div>
           </div>
         </div>

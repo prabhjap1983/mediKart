@@ -1184,3 +1184,182 @@ const MyOrders = () => {
 };
 
 export default MyOrders;
+
+
+// import React, { useEffect, useState, useContext } from "react";
+// import { AppContext } from "../context/AppContext";
+// import toast from "react-hot-toast";
+
+// const MyOrders = () => {
+//   const { axios, user, navigate } = useContext(AppContext);
+//   const [myOrders, setMyOrders] = useState([]);
+//   const [loading, setLoading] = useState(true);
+
+//   const fetchOrders = async () => {
+//     try {
+//       const { data } = await axios.get("/api/order/user", { withCredentials: true });
+//       if (data.success) {
+//         setMyOrders(data.orders);
+//       } else {
+//         toast.error(data.message || "Failed to fetch orders");
+//       }
+//     } catch (error) {
+//       toast.error(error.response?.data?.message || error.message);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   useEffect(() => {
+//     if (user) {
+//       fetchOrders();
+//     } else {
+//       setLoading(false);
+//     }
+//   }, [user]);
+
+//   const formatDate = (dateString) => {
+//     return new Date(dateString).toLocaleString("en-GB", {
+//       day: "2-digit",
+//       month: "short",
+//       year: "numeric",
+//       hour: "2-digit",
+//       minute: "2-digit",
+//     });
+//   };
+
+//   const getStatusClasses = (status) => {
+//     switch (status) {
+//       case "Delivered":
+//         return "bg-green-100 text-green-700";
+//       case "Processing":
+//         return "bg-yellow-100 text-yellow-700";
+//       case "Cancelled":
+//         return "bg-red-100 text-red-700";
+//       default:
+//         return "bg-gray-100 text-gray-700";
+//     }
+//   };
+
+//   if (loading) {
+//     return <div className="text-center py-16 text-gray-500">Loading orders...</div>;
+//   }
+
+//   if (!user) {
+//     return (
+//       <div className="text-center py-16">
+//         <p className="text-gray-600">Please log in to view your orders.</p>
+//         <button
+//           onClick={() => navigate("/login")}
+//           className="mt-4 bg-indigo-600 text-white px-6 py-2 rounded-lg"
+//         >
+//           Go to Login
+//         </button>
+//       </div>
+//     );
+//   }
+
+//   if (myOrders.length === 0) {
+//     return (
+//       <div className="text-center py-16">
+//         <p className="text-gray-600">No orders found.</p>
+//         <button
+//           onClick={() => navigate("/")}
+//           className="mt-4 bg-indigo-600 text-white px-6 py-2 rounded-lg"
+//         >
+//           Shop Now
+//         </button>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="mt-12 pb-16 px-4 md:px-8">
+//       <h2 className="text-2xl md:text-3xl font-semibold mb-8 text-gray-900">
+//         My Orders
+//       </h2>
+
+//       <div className="space-y-6">
+//         {myOrders.map((order) => (
+//           <div
+//             key={order._id}
+//             className="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition p-6"
+//           >
+//             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 pb-4 border-b border-gray-100">
+//               <div className="flex flex-wrap items-center gap-3 mb-2 md:mb-0">
+//                 <span className="text-sm text-gray-600 font-medium">
+//                   Order ID: {order._id}
+//                 </span>
+//                 <span
+//                   className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusClasses(
+//                     order.status
+//                   )}`}
+//                 >
+//                   {order.status}
+//                 </span>
+//                 <span
+//                   className={`px-3 py-1 rounded-full text-xs font-medium ${
+//                     order.paymentType === "Online"
+//                       ? "bg-blue-100 text-blue-700"
+//                       : "bg-gray-100 text-gray-700"
+//                   }`}
+//                 >
+//                   {order.paymentType}
+//                 </span>
+//               </div>
+//               <div className="text-lg font-bold text-green-600">
+//                 ₹{order.amount}
+//               </div>
+//             </div>
+
+//             <div className="divide-y divide-gray-100">
+//               {order.items.map((item, index) => (
+//                 <div key={index} className="flex items-center gap-6 py-4">
+//                   <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 border border-gray-200">
+//                     <img
+//                       src={
+//                         item.product.image?.length > 0
+//                           ? `http://localhost:5000/images/${item.product.image[0]}`
+//                           : "/placeholder.png"
+//                       }
+//                       alt={item.product.name}
+//                       className="w-full h-full object-cover"
+//                     />
+//                   </div>
+
+//                   <div className="flex-1">
+//                     <h3 className="font-medium text-gray-900 text-base">
+//                       {item.product.name}
+//                     </h3>
+//                     <p className="text-sm text-gray-500">
+//                       {item.product.category}
+//                     </p>
+//                   </div>
+
+//                   <div className="text-right text-sm text-gray-600 min-w-[150px]">
+//                     <p>
+//                       <span className="font-medium">Qty:</span> {item.quantity}
+//                     </p>
+//                     <p>
+//                       <span className="font-medium">Date:</span>{" "}
+//                       {formatDate(order.createdAt)}
+//                     </p>
+//                   </div>
+
+//                   <div className="text-right min-w-[120px]">
+//                     <p className="text-base font-semibold text-gray-900">
+//                       ₹{item.product.price * item.quantity}
+//                     </p>
+//                   </div>
+//                 </div>
+//               ))}
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default MyOrders;
+

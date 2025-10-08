@@ -460,14 +460,27 @@ const product = products.find((p) => String(p._id) === String(id));
             {renderStars(product.rating || 4.3)}
           </div>
 
-          {/* Price Section */}
+          {/* Price Section
           <div>
             {product.oldPrice && (
               <p className="text-gray-500 line-through">MRP: ₹{product.oldPrice}</p>
             )}
             <p className="text-3xl font-bold text-indigo-600">₹{product.price}</p>
             <span className="text-gray-500 text-sm">(inclusive of all taxes)</span>
-          </div>
+          </div> */}
+          {/* Price Section */}
+<div className="space-y-1">
+  {product.offerPrice && product.offerPrice < product.price ? (
+    <div className="flex items-center gap-2">
+      <span className="text-gray-500 line-through text-lg">₹{product.price}</span>
+      <span className="text-indigo-600 text-3xl font-bold">₹{product.offerPrice}</span>
+    </div>
+  ) : (
+    <p className="text-3xl font-bold text-indigo-600">₹{product.price}</p>
+  )}
+  <span className="text-gray-500 text-sm">(inclusive of all taxes)</span>
+</div>
+
 
           {/* About Product */}
           {product.description && (
