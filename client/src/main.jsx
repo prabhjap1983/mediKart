@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 
 
 import { BrowserRouter } from 'react-router-dom'
-import AppContextProvider from "./context/AppContext.jsx";  // ✅ Remove { }
+import AppContextProvider from "./context/AppContext.jsx"; 
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>

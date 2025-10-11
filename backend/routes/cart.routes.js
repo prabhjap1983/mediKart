@@ -4,10 +4,10 @@ import { updateCart, getCart } from "../controllers/cart.controller.js";
 
 const router = express.Router();
 
-// ✅ Get cart
+// Get cart
 router.get("/", authUser, getCart);
 
-// ✅ Update cart
+//Update cart
 router.post("/update", authUser, updateCart);
 
 export default router;

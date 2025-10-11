@@ -1,11 +1,11 @@
 import React from "react";
-import about from "../assets/about.jpg"; // 🔁 Replace if needed
+import about from "../assets/about.jpg"; 
 
 const AboutSection = () => {
   return (
     <section className="bg-white py-20 px-4">
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-        {/* Left Content */}
+        
         <div className="space-y-6 animate-fadeIn">
           <p className="text-sm uppercase text-[#4d59e2ff] tracking-wider font-semibold">
             Your Health, Our Priority
@@ -32,7 +32,7 @@ const AboutSection = () => {
           </a>
         </div>
 
-        {/* Right Image */}
+      
         <div className="flex justify-center">
           <img
             src={about}

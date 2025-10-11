@@ -306,7 +306,7 @@ export const logoutUser = async (req, res) => {
 
 export const isAuthUser = async (req, res) => {
   try {
-    const userId = req.user; // comes from auth middleware
+    const userId = req.user; 
     if (!userId) {
       return res
         .status(401)

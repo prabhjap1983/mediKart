@@ -32,7 +32,7 @@ const Home = () => {
       </div>
       
       <div>
-      {/* Other sections */}
+      
       <FAQ />
     </div>
     

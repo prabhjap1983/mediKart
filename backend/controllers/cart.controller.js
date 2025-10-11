@@ -1,7 +1,5 @@
 import User from "../models/user.model.js";
 
-// ✅ Fetch Cart
-// cart.controller.js
 export const getCart = async (req, res) => {
   try {
     const userId = req.user;
@@ -26,7 +24,7 @@ export const getCart = async (req, res) => {
 };
 
 
-// ✅ Update Cart (you already had this)
+// Update Cart 
 export const updateCart = async (req, res) => {
   try {
     const userId = req.user;

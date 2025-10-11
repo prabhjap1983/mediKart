@@ -8,7 +8,7 @@ import { Autoplay, Pagination } from "swiper/modules";
 import Carousel1 from "../assets/Carousel1.png";
 import daily_essential from "../assets/daily_essential.png";
 import immunity_booster from "../assets/immunity_booster.png";
-
+import { Link } from "react-router-dom";
 const slides = [
   {
     id: 1,
@@ -51,7 +51,7 @@ const Hero = () => {
           <div
             className={`relative w-full overflow-hidden bg-gradient-to-br ${slide.bgGradient} py-14`}
           >
-            {/* Bottom Curved Border */}
+            
             <div className="absolute inset-x-0 bottom-0">
               <svg
                 viewBox="0 0 1440 100"
@@ -65,9 +65,9 @@ const Hero = () => {
               </svg>
             </div>
 
-            {/* Slide Content */}
+            
             <div className="flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto px-6 md:px-12 gap-10">
-              {/* Image Section */}
+              
               <div className="relative w-full md:w-1/2">
                 <div
                   className="absolute -top-10 -left-10 w-60 h-60 rounded-full blur-2xl opacity-50 z-0"
@@ -83,7 +83,7 @@ const Hero = () => {
                 </div>
               </div>
 
-              {/* Text Section */}
+              
               <div className="w-full md:w-1/2 text-center md:text-left z-10">
                 <h1 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
                   {slide.title}
@@ -91,9 +91,22 @@ const Hero = () => {
                 <p className="text-gray-600 text-lg mb-6">
                   Explore a wide range of health & wellness essentials delivered to your door.
                 </p>
-                <button className="bg-[#3F51B5] text-white px-6 py-3 rounded-xl text-base font-bold shadow-lg hover:bg-[#303F9F] transition duration-300">
+                {/* <button className="bg-[#3F51B5] text-white px-6 py-3 rounded-xl text-base font-bold shadow-lg hover:bg-[#303F9F] transition duration-300">
                   Shop Now
-                </button>
+                </button> */}
+                {/* <button
+  onClick={() => navigate("/medicines-and-more")}
+  className="bg-[#3F51B5] text-white px-6 py-3 rounded-xl text-base font-bold shadow-lg hover:bg-[#303F9F] transition duration-300"
+>
+  Shop Now
+</button> */}
+<Link
+  to="/medicines-and-more"
+  className="bg-[#3F51B5] text-white px-6 py-3 rounded-xl text-base font-bold shadow-lg hover:bg-[#303F9F] transition duration-300"
+>
+  Shop Now
+</Link>
+
               </div>
             </div>
           </div>

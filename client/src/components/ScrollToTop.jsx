@@ -1,4 +1,4 @@
-// components/ScrollToTop.jsx
+
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -9,7 +9,7 @@ const ScrollToTop = () => {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: "smooth", // use "auto" for instant scroll
+      behavior: "smooth", 
     });
   }, [pathname]);
 

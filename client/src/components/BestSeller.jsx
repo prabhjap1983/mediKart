@@ -1,4 +1,4 @@
-// BestSeller.jsx
+
 import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import ProductCard from './ProductCard';
@@ -12,7 +12,7 @@ const BestSeller = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-12">
 
         {products
-          .filter((product) => product.inStock !== false) // Optional check
+          .filter((product) => product.inStock !== false) 
           .slice(0, 100)
           .map((product, index) => (
             <ProductCard key={index} product={product} />
@@ -23,30 +23,4 @@ const BestSeller = () => {
 };
 
 export default BestSeller;
-
-
-// import React, { useContext } from 'react';
-// import { AppContext } from '../context/AppContext';
-// import ProductCard from './ProductCard';
-
-// const BestSeller = () => {
-//   const { products } = useContext(AppContext);
-
-//   return (
-//     <div className="mt-20 px-6 md:px-14">
-//       <p className="text-3xl font-semibold mb-10 text-gray-800">Best Sellers</p>
-      
-//       <div className="grid gap-x-8 gap-y-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-//         {products
-//           .filter((product) => product.inStock !== false)
-//           .slice(0, 100)
-//           .map((product, index) => (
-//             <ProductCard key={index} product={product} />
-//           ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default BestSeller;
 

@@ -1,44 +1,11 @@
-// import mongoose from 'mongoose';
-
-// const userSchema= new mnoogse.Schema({
-//         name:{
-//             type: string,
-//             require: true,
-
-//         },
-//         email:{
-//             type: string,
-//             require: true,
-//             unique: true,
-//         },
-//         email:{
-//             type: string,
-//             require: true,
-//             unique: true,
-//         },
-//         password:{
-//             type: String,
-//             require: true,
-//         },
-//         cartItems:{
-//             type:Object,
-//             default: {}
-//         },
-//         {minimize: false}
-// );
-
-// const User = mongoose.model("User", userSchema);
-
-// export default User;
-
 
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema(
   {
     name: {
-      type: String, // Capital S
-      required: true, // 'required', not 'require'
+      type: String, 
+      required: true, 
     },
     email: {
       type: String,
@@ -54,7 +21,7 @@ const userSchema = new mongoose.Schema(
       default: {},
     },
   },
-  { minimize: false } // Options go here, outside the schema fields
+  { minimize: false } 
 );
 
 const User = mongoose.model("User", userSchema);
